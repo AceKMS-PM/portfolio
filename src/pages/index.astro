@@ -1,0 +1,277 @@
+---
+import "../styles/global.css";
+import { profile, chips, experiences, skillGroups, projects, certifications, thesis, studyNotes, agents, nav } from "../data/content.ts";
+
+const toneDot: Record<string, string> = {
+  green: "bg-emerald",
+  cyan: "bg-cyan",
+  indigo: "bg-indigo",
+};
+
+const toneText: Record<string, string> = {
+  green: "text-mint",
+  cyan: "text-cyan",
+  indigo: "text-palindigo",
+};
+
+const badgeClass: Record<string, string> = {
+  stronger: "bg-emerald/10 text-palegreen",
+  progress: "bg-amber/10 text-paleamber",
+  academic: "bg-indigo/10 text-palindigo",
+};
+
+const badgeDot: Record<string, string> = {
+  stronger: "bg-emerald",
+  progress: "bg-amber",
+  academic: "bg-indigo",
+};
+
+const statusBadge: Record<string, string> = {
+  finished: "bg-emerald/10 text-palegreen",
+  building: "bg-amber/10 text-paleamber",
+  experimental: "bg-amber/10 text-paleamber",
+  contributor: "bg-cyan/10 text-cyan",
+};
+
+const statusDot: Record<string, string> = {
+  finished: "bg-emerald",
+  building: "bg-amber",
+  experimental: "bg-amber",
+  contributor: "bg-cyan",
+};
+---
+
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{profile.name} — Portfolio</title>
+    <meta name="description" content={profile.statement} />
+  </head>
+  <body class="bg-base text-ink font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-base/85 backdrop-blur-md border-b border-border">
+      <div class="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+        <a href="#top" class="font-mono text-sm font-semibold tracking-wider text-mint">~/portfolio</a>
+        <nav class="flex items-center gap-4 font-mono text-xs text-muted">
+          {nav.map((n) => (
+            <a href={n.href} class="hover:text-mint transition-colors hidden sm:inline">{n.label}</a>
+          ))}
+          <a href={profile.github} target="_blank" rel="noopener" class="text-ink hover:text-mint transition-colors">GitHub -&gt;</a>
+        </nav>
+      </div>
+      <!-- mobile nav -->
+      <nav class="sm:hidden border-t border-border flex overflow-x-auto font-mono text-xs text-muted">
+        {nav.map((n) => (
+          <a href={n.href} class="px-4 py-2 whitespace-nowrap hover:text-mint">{n.label}</a>
+        ))}
+      </nav>
+    </header>
+
+    <main id="top" class="w-full max-w-3xl mx-auto px-4 pt-28 sm:pt-20 pb-16 flex flex-col gap-14">
+
+      <!-- Hero -->
+      <section id="overview" class="flex flex-col gap-4">
+        <div class="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-full bg-raised border border-border font-mono text-xs text-muted">
+          <span class="text-mint">○</span> {profile.location}
+        </div>
+        <h1 class="text-3xl sm:text-5xl font-bold tracking-tight">{profile.name}</h1>
+        <div class="flex flex-wrap gap-2">
+          {chips.map((c) => (
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-raised border border-border font-mono text-[11px] font-semibold uppercase tracking-wider">
+              <span class={`w-1.5 h-1.5 rounded-full ${toneDot[c.tone]}`}></span>
+              <span class={toneText[c.tone]}>{c.label}</span>
+            </span>
+          ))}
+        </div>
+        <div class="p-4 rounded-lg bg-inset border border-border flex flex-col gap-2">
+          <div class="font-mono text-xs text-muted"><span class="text-mint">user@kms-box:~$</span> cat statement.txt</div>
+          <p class="text-[15px] leading-relaxed text-ink">{profile.statement}</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <a href="#projects" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-emerald text-base font-semibold text-sm hover:bg-mint transition-colors">View Projects ↓</a>
+          <a href={profile.github} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-raised border border-borderhi font-mono text-xs hover:text-mint hover:border-emerald transition-colors">GitHub ({profile.githubLabel.replace("https://", "")})</a>
+          <a href={profile.cvPath} class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-md bg-raised border border-borderhi font-mono text-xs hover:text-mint hover:border-emerald transition-colors">Download CV (PDF)</a>
+        </div>
+        <p class="font-mono text-xs text-faint">● Avail. for internship</p>
+      </section>
+
+      <!-- About -->
+      <section id="about" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-mint">Background</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Education &amp; Experience</h2>
+        </div>
+        <div class="p-4 rounded-lg bg-raised border border-border flex flex-col gap-1">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-palindigo">Academic standing</p>
+          <p class="font-semibold">{profile.status.split("—")[0]}</p>
+          <p class="text-sm text-muted">{profile.status.split("—")[1]?.trim()}</p>
+        </div>
+        <div class="flex flex-col gap-3">
+          {experiences.map((e) => (
+            <div class="p-4 rounded-lg bg-card border border-border flex flex-col gap-1">
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-semibold">{e.org}</span>
+                <span class={`font-mono text-xs ${toneText[e.tone]}`}>{e.period}</span>
+              </div>
+              <span class="font-mono text-[11px] text-muted">{e.role}</span>
+              <p class="text-sm text-ink/90 mt-1">{e.text}</p>
+            </div>
+          ))}
+        </div>
+        <div class="p-4 rounded-lg bg-inset border border-border">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-mint mb-1">Methodology</p>
+          <p class="text-sm leading-relaxed text-ink/90">
+            Pilots autonomous code agents ({agents.join(", ")}) while retaining architecture authority, choices, and systematic records (README, DOCS.md, CONCEPTS.md).
+          </p>
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section id="skills" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-mint">Technical taxonomy</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Honest Skills Matrix</h2>
+        </div>
+        {skillGroups.map((g) => (
+          <div class="p-4 rounded-lg bg-card border border-border flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-2 flex-wrap">
+              <span class="font-semibold">{g.title}</span>
+              <span class={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold uppercase ${badgeClass[g.tone]}`}>
+                <span class={`w-1.5 h-1.5 rounded-full ${badgeDot[g.tone]}`}></span>{g.badge}
+              </span>
+            </div>
+            <p class="text-sm text-muted">{g.blurb}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {g.items.map((s) => (
+                <span class="px-2 py-1 rounded bg-raised border border-border font-mono text-xs text-ink/90">{s}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div class="p-4 rounded-lg bg-inset border border-border flex flex-col gap-2">
+          <p class="font-mono text-[11px] uppercase tracking-wider text-cyan">Study notes</p>
+          <ul class="text-sm text-muted flex flex-col gap-1 font-mono text-xs">
+            {studyNotes.map((n) => (<li>· {n}</li>))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Certifications -->
+      <section id="certifications" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-mint">Credentials</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Certifications</h2>
+        </div>
+        <div class="flex flex-col gap-2">
+          {certifications.map((c) => (
+            <div class="p-4 rounded-lg bg-card border border-border flex items-center justify-between gap-2">
+              <div class="flex flex-col gap-0.5">
+                <span class="font-medium text-sm">{c.name}</span>
+                <span class="font-mono text-xs text-muted">{c.issuer}</span>
+              </div>
+              <span class="font-mono text-xs text-mint whitespace-nowrap">{c.date}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-mint">Workspace portfolio</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Featured Projects</h2>
+        </div>
+        {projects.map((p) => (
+          <article class="p-4 rounded-lg bg-card border border-border flex flex-col gap-3">
+            <div class="flex items-start justify-between gap-2 flex-wrap">
+              <h3 class="font-semibold text-lg">{p.name}</h3>
+              <span class={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-mono text-[11px] font-semibold uppercase ${statusBadge[p.status]}`}>
+                <span class={`w-1.5 h-1.5 rounded-full ${statusDot[p.status]}`}></span>{p.statusLabel}
+              </span>
+            </div>
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-wider text-faint mb-1">Context</p>
+              <p class="text-sm text-ink/90 leading-relaxed">{p.context}</p>
+            </div>
+            <div>
+              <p class="font-mono text-[11px] uppercase tracking-wider text-faint mb-1">My part</p>
+              <p class="text-sm text-ink/90 leading-relaxed">{p.mine}</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              {p.stack.map((s) => (
+                <span class="px-2 py-1 rounded bg-raised border border-border font-mono text-xs">{s}</span>
+              ))}
+            </div>
+            {p.roadmap && (
+              <div class="p-3 rounded bg-inset border border-border">
+                <p class="font-mono text-[11px] uppercase tracking-wider text-paleamber mb-1">Roadmap / TODO</p>
+                <ul class="text-sm text-muted flex flex-col gap-1">
+                  {p.roadmap.map((r) => (<li class="font-mono text-xs">○ {r}</li>))}
+                </ul>
+              </div>
+            )}
+            <a href={p.link} target="_blank" rel="noopener" class="font-mono text-xs text-mint hover:underline">{p.link.replace("https://", "")} -&gt;</a>
+          </article>
+        ))}
+      </section>
+
+      <!-- Thesis -->
+      <section id="thesis" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-palindigo">Academic</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Thesis — HA Network Architecture</h2>
+        </div>
+        <div class="p-4 rounded-lg bg-card border border-indigo/40 flex flex-col gap-3">
+          <span class="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-indigo/10 text-palindigo font-mono text-[11px] font-semibold uppercase">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo"></span>{thesis.kind}
+          </span>
+          <p class="font-medium leading-relaxed">« {thesis.title} »</p>
+          <p class="text-sm text-muted">{thesis.coauthor}</p>
+          <p class="text-sm text-muted">{thesis.supervisors}</p>
+          <p class="text-sm text-ink/90 leading-relaxed">{thesis.summary}</p>
+          <ul class="flex flex-col gap-1">
+            {thesis.bullets.map((b) => (<li class="font-mono text-xs text-muted">· {b}</li>))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="flex flex-col gap-4">
+        <div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-widest text-mint">Open for internship / junior role</p>
+          <h2 class="text-2xl font-semibold tracking-tight">Contact</h2>
+        </div>
+        <div class="p-4 rounded-lg bg-inset border border-border">
+          <p class="font-mono text-xs text-muted"><span class="text-mint">user@kms-box:~$</span> cat PITCH.md</p>
+          <p class="text-sm leading-relaxed mt-1">Final-year network administration student with hands-on web engineering and agent-piloting practice. Documented public repos, looking to contribute to real production environments.</p>
+        </div>
+        <div class="flex flex-col gap-2">
+          <a href={`mailto:${profile.email}`} class="p-4 rounded-lg bg-card border border-border flex items-center justify-between hover:border-emerald transition-colors">
+            <span class="font-mono text-sm">{profile.email}</span>
+            <span class="font-mono text-xs text-mint">send -&gt;</span>
+          </a>
+          <a href={profile.github} target="_blank" rel="noopener" class="p-4 rounded-lg bg-card border border-border flex items-center justify-between hover:border-emerald transition-colors">
+            <span class="font-mono text-sm">{profile.githubLabel}</span>
+            <span class="font-mono text-xs text-mint">open -&gt;</span>
+          </a>
+          <a href={profile.cvPath} class="p-4 rounded-lg bg-card border border-border flex items-center justify-between hover:border-emerald transition-colors">
+            <span class="font-mono text-sm">Download CV (PDF)</span>
+            <span class="font-mono text-xs text-mint">pdf -&gt;</span>
+          </a>
+        </div>
+        <p class="font-mono text-[11px] text-faint">No private phone / address published — email or GitHub only.</p>
+      </section>
+
+    </main>
+
+    <footer class="border-t border-border">
+      <div class="max-w-3xl mx-auto px-4 py-6 flex items-center justify-between font-mono text-xs text-faint">
+        <span>Kurt Degla · {profile.location}</span>
+        <span>Built with Astro · Terminal Slate</span>
+      </div>
+    </footer>
+
+  </body>
+</html>
