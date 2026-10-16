@@ -4,9 +4,9 @@
 export const profile = {
   name: "Kurt Merry Sèdjro Degla",
   location: "Cotonou, Benin",
-  status: "Final-year Licence, Computer Network Administration (ARI) — ENEAM. Thesis defended, diploma expected Dec 2026.",
+  status: "Bachelor, Computer Network Administration (ARI) — ENEAM.",
   statement:
-    "Final-year network administration student who builds web projects — most comfortable in PHP/Laravel — learning Rust and local AI by building, piloting code agents (OpenCode, Claude Code, Hermes Agent, ZCode) while keeping architecture and choices.",
+    "Bachelor in network administration student who builds web projects — most comfortable in PHP/Laravel — learning Rust and local AI by building, piloting code agents (OpenCode, Claude Code, Hermes Agent, ZCode) while keeping architecture and choices.",
   email: "kurtmerrydegla@gmail.com",
   github: "https://github.com/AceKMS-PM",
   githubLabel: "github.com/AceKMS-PM",
